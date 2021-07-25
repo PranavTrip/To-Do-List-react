@@ -1,56 +1,46 @@
 import React, { useState } from "react";
+import AddIcon from "@material-ui/icons/Add";
+import Button from "@material-ui/core/Button";
+import "./index.css";
 import List from "./List";
 
 const App = () => {
-  const [items, setItems] = useState();
+  const [items, setItems] = useState("");
+  const [itemList, setItemList] = useState([]);
 
-  const [itemList, setitemList] = useState([]);
-
-  const addItem = (event) => {
+  const updatedItems = (event) => {
     setItems(event.target.value);
   };
 
-  const finalList = () => {
-    setitemList((oldValues) => {
-      return [...oldValues, items];
+  const updatedListOfItems = () => {
+    setItemList((previousValues) => {
+      return [...previousValues, items];
     });
-    setItems(" ");
-  };
-
-  const deleteItem = (id) => {
-    setitemList((oldValues) => {
-      return oldValues.filter((arrElement, index) => {
-        return index !== id;
-      });
-    });
+    setItems("");
   };
 
   return (
     <>
       <div className="main_div">
         <div className="center_div">
-          <h1 className="heading">To-Do List</h1>
+          <br />
+          <h1>To-Do List</h1>
+          <br />
+          <br />
           <input
             type="text"
             placeholder="Click to Add Items"
-            onChange={addItem}
+            onChange={updatedItems}
+            value={items}
           />
-          <button className="addBtn" onClick={finalList}>
-            {" "}
-            +{" "}
-          </button>
+          <Button onClick={updatedListOfItems}>
+            <AddIcon />
+          </Button>
+          <br />
           <ol>
-            {itemList.map((itemVal, index) => {
-              return (
-                <List
-                  key={index}
-                  id={index}
-                  value={itemVal}
-                  onSelect={deleteItem}
-                />
-              );
+            {itemList.map((val, index) => {
+              return <List key={index} value={val} />;
             })}
-          
           </ol>
         </div>
       </div>
